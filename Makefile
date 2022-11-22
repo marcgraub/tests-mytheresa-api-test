@@ -1,4 +1,6 @@
-SCRIPTS ?= "./scripts/" ## path to script files
+SCRIPTS := ./scripts/ ## path to script files
+PHP-TERM := ./scripts/term.sh ## path to script files
+DOCKER-CLEAN := ./scripts/docker-clean.sh ## path to script files
 
 ## ┌───────────────────────────────────────────────────────────────────┐
 ## │                       Makefile                                    │
@@ -28,11 +30,11 @@ php-comm: ##	make php-comm COMMAND=php -v	execute a command in the php container
 
 .PHONY: php-term
 php-term: ##	make php-term			enter in the php shell container
-	@$(SCRIPTS)term.sh mytheresa-php /bin/sh ||:
+	@$(PHP-TERM) mytheresa-php /bin/sh ||:
 
 .PHONY: docker-clean
 docker-clean: ##	docker-clean			remove unused stuff in docker (nice to make space)
-	@$(SCRIPTS)docker-clean
+	@$(DOCKER-CLEAN)
 
 .PHONY: ps
 ps: ##		ps				same as docker ps	 ¯\_(ツ)_/¯
