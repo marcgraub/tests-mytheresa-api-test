@@ -1,9 +1,9 @@
-SCRIPTS := ./scripts/ ## path to script files
-PHP-TERM := ./scripts/term.sh ## path to script files
-DOCKER-CLEAN := ./scripts/docker-clean.sh ## path to script files
+SCRIPTS ?= ./scripts/ ##				path to script files
+PHP-TERM ?= ./scripts/term.sh ##			path to PHP-TERM script file
+DOCKER-CLEAN ?= ./scripts/docker-clean.sh ##	path to DOCKER-CLEAN script file
 
 ## ┌───────────────────────────────────────────────────────────────────┐
-## │                       Makefile                                    │
+## │                            Makefile                               │
 ## │ ───────────────────────────────────────────────────────────────── │
 ## │ I like to use the makefile to launch utility commands, it's lovely│
 ## │ for some productivity boosts, production maintenance, deploys,    │
@@ -39,3 +39,12 @@ docker-clean: ##	docker-clean			remove unused stuff in docker (nice to make spac
 .PHONY: ps
 ps: ##		ps				same as docker ps	 ¯\_(ツ)_/¯
 	@docker ps
+
+.PHONY: clear-ports
+check-ports: ##	check-ports			check if the ports needed for the containers are available
+	@printf "────────────────────────`tput bold``tput setaf 2` Checking port 80: `tput sgr0`──────────────────────────────────\n"
+	@sudo lsof -i :80 ||:
+	@printf "────────────────────────`tput bold``tput setaf 2` Checking port 443: `tput sgr0`─────────────────────────────────\n"
+	@sudo lsof -i :443 ||:
+	@printf "────────────────────────`tput bold``tput setaf 2` Checking port 5432: `tput sgr0`────────────────────────────────\n"
+	@sudo lsof -i :5432 ||:
